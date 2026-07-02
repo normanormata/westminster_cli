@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "westminster-standards-cli"
+version = "0.1.0"
+description = "A command line reader, searcher, and quiz tool for the Westminster Standards."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "Westminster Standards CLI contributors" }]
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = ["prompt_toolkit>=3.0,<4.0"]
+
+[project.urls]
+Homepage = "https://github.com/normanormata/westminster_cli"
+Repository = "https://github.com/normanormata/westminster_cli"
+Issues = "https://github.com/normanormata/westminster_cli/issues"
+
+[project.scripts]
+westminster = "westminster_cli.cli:main"
+ws = "westminster_cli.cli:main"
+wsc = "westminster_cli.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+westminster_cli = ["data/*.json"]
+
+[dependency-groups]
+dev = [
+    "pymupdf>=1.26.5",
+    "pytest>=8.4.2",
+]
