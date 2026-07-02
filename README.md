@@ -16,6 +16,12 @@ The bundled corpus lives in `src/westminster_cli/data/standards.json`. The impor
 
 You need Python 3.9+ and [uv](https://docs.astral.sh/uv/) installed.
 
+Install `uv` if you do not already have it:
+
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
 To try the CLI from a fresh clone:
 
 ```sh
