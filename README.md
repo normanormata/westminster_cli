@@ -22,27 +22,10 @@ Install `uv` if you do not already have it:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-To try the CLI from a fresh clone:
+Install the CLI from PyPI:
 
 ```sh
-git clone https://github.com/normanormata/westminster_cli.git
-cd westminster_cli
-uv run ws
-```
-
-That opens the interactive terminal session. You can also run one-shot commands
-without installing globally:
-
-```sh
-uv run ws stats
-uv run ws wcf 1
-uv run ws wsc 1 --question
-```
-
-To install `ws` as a command you can run from anywhere:
-
-```sh
-uv tool install git+https://github.com/normanormata/westminster_cli.git
+uv tool install westminster-standards-cli
 ```
 
 Then run:
@@ -51,6 +34,28 @@ Then run:
 ws
 ws stats
 ws wcf 1
+ws wsc 1 --question
+```
+
+`uv` installs the CLI and its Python dependencies, including `prompt_toolkit`,
+from the package metadata.
+
+## Development Install
+
+To try the CLI from a fresh clone without installing it globally:
+
+```sh
+git clone https://github.com/normanormata/westminster_cli.git
+cd westminster_cli
+uv run ws
+```
+
+You can also run one-shot commands from the clone:
+
+```sh
+uv run ws stats
+uv run ws wcf 1
+uv run ws wsc 1 --question
 ```
 
 If you cloned the repo and want your local edits to take effect while you work
