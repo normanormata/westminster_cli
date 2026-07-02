@@ -12,6 +12,48 @@ The data is derived from the OPC pages linked from <https://opc.org/confessions.
 
 The bundled corpus lives in `src/westminster_cli/data/standards.json`. The importer in `scripts/build_opc_corpus.py` can rebuild it from downloaded OPC HTML.
 
+## Installation
+
+You need Python 3.9+ and [uv](https://docs.astral.sh/uv/) installed.
+
+To try the CLI from a fresh clone:
+
+```sh
+git clone https://github.com/normanormata/westminster_cli.git
+cd westminster_cli
+uv run ws
+```
+
+That opens the interactive terminal session. You can also run one-shot commands
+without installing globally:
+
+```sh
+uv run ws stats
+uv run ws wcf 1
+uv run ws wsc 1 --question
+```
+
+To install `ws` as a command you can run from anywhere:
+
+```sh
+uv tool install git+https://github.com/normanormata/westminster_cli.git
+```
+
+Then run:
+
+```sh
+ws
+ws stats
+ws wcf 1
+```
+
+If you cloned the repo and want your local edits to take effect while you work
+on the CLI, install it in editable mode from inside the project folder:
+
+```sh
+uv tool install -e .
+```
+
 ## Run locally
 
 ```sh
