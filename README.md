@@ -85,6 +85,10 @@ Enter to reveal the answer, records whether you got it, and prints a running sco
 Type `s` to skip a card or `q` to stop early. Pass a document id and question
 count to shape the session, e.g. `ws quiz wlc 20` (defaults: `wsc`, 10 questions).
 
+`search` matches entries containing all of the given terms; pass `-r`/`--regex`
+to treat the query as a single case-insensitive regular expression instead
+(`ws search --regex "bapti[sz]ed?"`).
+
 Pass `-p`/`--proofs` to any reading command (`ws wsc 1 -p`, `ws wcf 1.1 -p`,
 `ws wcf 1 -p`) to show the OPC scripture proof texts beneath the text,
 lettered to match the printed edition. It combines with `-q`/`-a`, and `/p wsc 1`
@@ -123,6 +127,7 @@ uv run ws wcf 1.1
 uv run ws wcf 1.1 -p
 uv run ws wcf 1.1 -m
 uv run ws search "chief end"
+uv run ws search --regex "bapti[sz]ed?"
 uv run ws quiz
 uv run ws quiz wlc 20
 uv run ws stats

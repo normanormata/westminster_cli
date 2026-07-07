@@ -158,6 +158,10 @@ class WestminsterCompleter:
                 yield from emit(doc_id, "Document")
             return
 
+        if first == "search" and word_index == 1:
+            yield from emit("--regex", "Regular expression search")
+            return
+
         if first == "quiz":
             if word_index == 1:
                 for doc in self.documents:
@@ -197,6 +201,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     search_parser = subparsers.add_parser("search", help="Search across the bundled corpus.")
     search_parser.add_argument("query", nargs="+", help="Search terms.")
+    search_parser.add_argument(
+        "-r",
+        "--regex",
+        action="store_true",
+        help="Treat the query as a case-insensitive regular expression.",
+    )
 
     quiz_parser = subparsers.add_parser(
         "quiz", help="Flashcard quiz: reveal answers and track your score."
@@ -302,7 +312,11 @@ def dispatch(documents, raw_args: list[str], read_line=input) -> int:
 
     if args.command == "search":
         query = " ".join(args.query)
-        _emit(format_search_results(search_entries(documents, query), color=_color_enabled()), page=True)
+        try:
+            results = search_entries(documents, query, regex=args.regex)
+        except ValueError as exc:
+            return _error(str(exc))
+        _emit(format_search_results(results, color=_color_enabled()), page=True)
         return 0
 
     if args.command == "quiz":

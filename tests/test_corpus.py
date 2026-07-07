@@ -108,6 +108,25 @@ class CorpusTests(unittest.TestCase):
         self.assertEqual(search_entries(self.documents, ""), [])
         self.assertEqual(search_entries(self.documents, "   "), [])
 
+    def test_search_entries_regex_matches_pattern(self):
+        matches = search_entries(self.documents, r"chief end of man\?", regex=True)
+        self.assertEqual([entry.ref for entry in matches], ["1"])
+
+    def test_search_entries_regex_alternation_spans_documents(self):
+        matches = search_entries(self.documents, r"effectual|chief", regex=True)
+        refs = {(entry.doc_id, entry.ref) for entry in matches}
+        self.assertIn(("wcf", "10.1"), refs)
+        self.assertIn(("wsc", "1"), refs)
+
+    def test_search_entries_regex_is_case_insensitive(self):
+        matches = search_entries(self.documents, r"GLORIFY\s+GOD", regex=True)
+        self.assertEqual([entry.ref for entry in matches], ["1"])
+
+    def test_search_entries_regex_invalid_pattern_raises(self):
+        with self.assertRaises(ValueError) as ctx:
+            search_entries(self.documents, "[", regex=True)
+        self.assertIn("Invalid regex", str(ctx.exception))
+
     def test_entry_proofs_default_to_empty(self):
         entry = _qa("wsc", "1", "Q?", "A.")
         self.assertEqual(entry.proofs, ())

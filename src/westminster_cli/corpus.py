@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from importlib import resources
 from typing import Iterable, Optional, Tuple
@@ -112,7 +113,21 @@ def find_chapter_entries(document: Document, chapter: str) -> list[Entry]:
     return [entry for entry in document.entries if entry.ref.casefold().startswith(prefix)]
 
 
-def search_entries(documents: Iterable[Document], query: str) -> list[Entry]:
+def search_entries(
+    documents: Iterable[Document], query: str, regex: bool = False
+) -> list[Entry]:
+    if regex:
+        try:
+            pattern = re.compile(query, re.IGNORECASE)
+        except re.error as exc:
+            raise ValueError(f"Invalid regex: {exc}")
+        return [
+            entry
+            for document in documents
+            for entry in document.entries
+            if pattern.search(entry.searchable_text)
+        ]
+
     terms = [term.casefold() for term in query.split() if term.strip()]
     if not terms:
         return []

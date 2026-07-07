@@ -443,6 +443,30 @@ class CliTests(unittest.TestCase):
         self.assertIn("WSC 1", output)
         self.assertIn("WLC 1", output)
 
+    def test_search_regex_flag_matches_pattern(self):
+        exit_code, output, _ = self.run_cli(
+            ["search", "--regex", r"chief( and highest)? end"]
+        )
+        self.assertEqual(exit_code, 0)
+        self.assertIn("WSC 1", output)
+        self.assertIn("WLC 1", output)
+
+    def test_search_regex_short_flag(self):
+        exit_code, output, _ = self.run_cli(["search", "-r", "bapti[sz]"])
+        self.assertEqual(exit_code, 0)
+        self.assertIn("matches", output)
+
+    def test_search_regex_invalid_pattern_errors(self):
+        exit_code, _, err = self.run_cli(["search", "--regex", "["])
+        self.assertEqual(exit_code, 1)
+        self.assertIn("Invalid regex", err)
+
+    def test_search_argument_completion_suggests_regex(self):
+        documents = load_documents()
+        completer = WestminsterCompleter(documents)
+        texts = [c.text for c in completer.get_completions(Document("search "), None)]
+        self.assertEqual(texts, ["--regex"])
+
     def test_slash_stats(self):
         exit_code, output, _ = self.run_cli(["/stats"])
         self.assertEqual(exit_code, 0)
